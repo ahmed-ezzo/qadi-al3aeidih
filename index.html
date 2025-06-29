@@ -5,26 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>قاضي القاعده</title>
     
+    <!-- IMPORTANT: Tailwind CSS Script (This fixes the styling issue) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <!-- Google Font for Arabic text -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Link to your CSS file -->
+    <!-- Link to your local CSS file -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     
     <div id="game-container">
         <!-- Screen 0: Splash -->
-        <div id="screen-splash" class="screen">
+        <div id="screen-splash" class="screen flex flex-col items-center justify-center text-center p-8 space-y-10">
             <h1 class="splash-title">قاضي القاعده</h1>
             <button onclick="showScreen('setup')" class="btn btn-secondary w-3/4">ادخل</button>
         </div>
 
         <!-- Screen 1: Setup -->
         <div id="screen-setup" class="screen hidden">
-             <div class="top-buttons-container">
+            <div class="top-buttons-container">
                 <button onclick="toggleRules(true)" class="corner-btn menu-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                      <span>القائمة</span>
@@ -38,7 +41,7 @@
             <p class="subtitle">أضف 3 لاعبين على الأقل.</p>
             <div class="flex gap-2">
                 <input type="text" id="playerNameInput" placeholder="اكتب اسم لاعب جديد..." class="flex-grow"/>
-                <button onclick="addPlayer()" class="btn btn-primary w-auto flex-shrink-0 px-4">أضف</button>
+                <button onclick="addPlayer()" class="btn btn-primary w-auto shrink-0 px-4">أضف</button>
             </div>
             <div id="player-list-setup" class="space-y-2"></div>
             <p id="error-message" class="text-red-500 text-center h-4 font-bold"></p>

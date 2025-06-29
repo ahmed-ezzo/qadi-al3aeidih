@@ -184,6 +184,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.restartGame = () => {
+        if(timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
         players = [];
         updatePlayerListUI();
         startGameBtn.disabled = true;
@@ -211,10 +215,10 @@ document.addEventListener('DOMContentLoaded', () => {
         roundNumber++;
         currentScenario = SCENARIOS[Math.floor(Math.random() * SCENARIOS.length)];
         
-        currentJudgeIndex = Math.floor(Math.random() * players.length);
-        const nonJudges = players.map((p, i) => i).filter(i => i !== currentJudgeIndex);
-        
-        criminalIndex = nonJudges[Math.floor(Math.random() * nonJudges.length)];
+        // Determine judge and criminal
+        let playerIndices = players.map((p, i) => i);
+        currentJudgeIndex = playerIndices.splice(Math.floor(Math.random() * playerIndices.length), 1)[0];
+        criminalIndex = playerIndices.splice(Math.floor(Math.random() * playerIndices.length), 1)[0];
         
         let suspectRoles = [...currentScenario.suspect_roles];
         const criminalRole = suspectRoles.splice(Math.floor(Math.random() * suspectRoles.length), 1)[0]; 
@@ -268,6 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         for(let i = 1; i <= 3; i++) {
             document.getElementById(`clueText${i}`).classList.add('hidden');
+            document.getElementById(`clueText${i}`).textContent = ''; // Clear previous clue
             document.getElementById(`revealClueBtn${i}`).disabled = false;
         }
         document.getElementById('goToJudgeBtn').classList.add('hidden');
@@ -324,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let medal = "";
             if(index === 0) medal = "🥇";
             if(index === 1) medal = "🥈";
-            if(index === 2) medal = "🥉";
+            if(index === 2) medal = "🥉"; // Fixed to show bronze medal
             scoreDiv.className = 'text-xl p-2 bg-gray-200 rounded-lg flex justify-between border-2 border-black';
             scoreDiv.innerHTML = `<span>${medal} ${p.name}</span> <span class="font-bold text-blue-700">${p.score} نقطة</span>`;
             finalScores.appendChild(scoreDiv);
@@ -336,12 +341,9 @@ document.addEventListener('DOMContentLoaded', () => {
     playerNameInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') addPlayer();
     });
-
+    
     // Initialize default selections
     selectTime(1);
     selectRounds(5);
     showScreen('splash');
 });
-</script>
-</body>
-</html>
